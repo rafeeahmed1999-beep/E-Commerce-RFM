@@ -554,7 +554,7 @@ with tab1:
             title="Customer Distribution by Segment",
         )
         fig_tree.update_layout(
-            **CHART_LAYOUT,
+            paper_bgcolor="#0a0a0f", plot_bgcolor="#0a0a0f", font=dict(family="DM Sans", color="#888", size=11), margin=dict(l=20, r=20, t=40, b=20),
             title_font=dict(family="DM Serif Display", size=16, color="#e8e4dc"),
         )
         fig_tree.update_traces(
@@ -578,7 +578,7 @@ with tab1:
             textfont=dict(family="DM Mono", size=10, color="#888"),
         ))
         fig_rev.update_layout(
-            **CHART_LAYOUT,
+            paper_bgcolor="#0a0a0f", plot_bgcolor="#0a0a0f", font=dict(family="DM Sans", color="#888", size=11), margin=dict(l=20, r=20, t=40, b=20),
             title=dict(text="Revenue by Segment", font=dict(family="DM Serif Display", size=16, color="#e8e4dc")),
             xaxis=dict(showticklabels=False, **AXIS_STYLE),
             yaxis=dict(gridcolor="rgba(0,0,0,0)", tickfont=dict(size=11, color="#888")),
@@ -661,7 +661,7 @@ with tab2:
             colorbar=dict(tickfont=dict(family="DM Mono", size=10, color="#888")),
         ))
         fig_heat.update_layout(
-            **CHART_LAYOUT,
+            paper_bgcolor="#0a0a0f", plot_bgcolor="#0a0a0f", font=dict(family="DM Sans", color="#888", size=11), margin=dict(l=20, r=20, t=40, b=20),
             title=dict(text="Avg Spend: Recency vs Frequency Score",
                        font=dict(family="DM Serif Display", size=16, color="#e8e4dc")),
             xaxis=dict(tickfont=dict(family="DM Mono", size=11), gridcolor="rgba(0,0,0,0)"),
@@ -693,7 +693,7 @@ with tab2:
             labels={"recency": "Days Since Last Purchase", "monetary": "Total Spend (£)"},
         )
         fig_scatter.update_layout(
-            **CHART_LAYOUT,
+            paper_bgcolor="#0a0a0f", plot_bgcolor="#0a0a0f", font=dict(family="DM Sans", color="#888", size=11), margin=dict(l=20, r=20, t=40, b=20),
             title_font=dict(family="DM Serif Display", size=16, color="#e8e4dc"),
             xaxis=dict(title="Days Since Last Purchase", title_font=dict(family="DM Mono", size=11, color="#666"), **AXIS_STYLE),
             yaxis=dict(title="Total Spend (£)", title_font=dict(family="DM Mono", size=11, color="#666"), **AXIS_STYLE),
@@ -728,7 +728,7 @@ with tab2:
                 labels={col_data.name: label},
             )
             fig_hist.update_layout(
-                **CHART_LAYOUT,
+                paper_bgcolor="#0a0a0f", plot_bgcolor="#0a0a0f", font=dict(family="DM Sans", color="#888", size=11), margin=dict(l=20, r=20, t=40, b=20),
                 title=dict(text=label, font=dict(family="DM Serif Display", size=14, color="#e8e4dc")),
                 xaxis=dict(**AXIS_STYLE),
                 yaxis=dict(**AXIS_STYLE),
@@ -833,7 +833,7 @@ with tab4:
             color_discrete_map=SEGMENT_COLOURS,
         )
         fig_exp.update_layout(
-            **CHART_LAYOUT,
+            paper_bgcolor="#0a0a0f", plot_bgcolor="#0a0a0f", font=dict(family="DM Sans", color="#888", size=11), margin=dict(l=20, r=20, t=40, b=20),
             title=dict(text="Export Breakdown by Segment",
                        font=dict(family="DM Serif Display", size=16, color="#e8e4dc")),
             showlegend=False,
