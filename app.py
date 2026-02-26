@@ -393,9 +393,11 @@ CHART_LAYOUT = dict(
         borderwidth=1,
         font=dict(size=11, color="#888"),
     ),
-    xaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
-    yaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
 )
+
+# Default axis style — apply manually where needed
+AXIS_STYLE     = dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25")
+AXIS_STYLE_NONE = dict(gridcolor="rgba(0,0,0,0)")
 
 
 # ─────────────────────────────────────────────
@@ -551,8 +553,10 @@ with tab1:
             color_discrete_map=SEGMENT_COLOURS,
             title="Customer Distribution by Segment",
         )
-        fig_tree.update_layout(**CHART_LAYOUT)
-        fig_tree.update_layout(title_font=dict(family="DM Serif Display", size=16, color="#e8e4dc"))
+        fig_tree.update_layout(
+            **CHART_LAYOUT,
+            title_font=dict(family="DM Serif Display", size=16, color="#e8e4dc"),
+        )
         fig_tree.update_traces(
             textfont=dict(family="DM Sans", size=12),
             marker=dict(line=dict(color="#0a0a0f", width=2))
@@ -576,7 +580,7 @@ with tab1:
         fig_rev.update_layout(
             **CHART_LAYOUT,
             title=dict(text="Revenue by Segment", font=dict(family="DM Serif Display", size=16, color="#e8e4dc")),
-            xaxis=dict(showticklabels=False, gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+            xaxis=dict(showticklabels=False, **AXIS_STYLE),
             yaxis=dict(gridcolor="rgba(0,0,0,0)", tickfont=dict(size=11, color="#888")),
             showlegend=False,
         )
@@ -691,8 +695,8 @@ with tab2:
         fig_scatter.update_layout(
             **CHART_LAYOUT,
             title_font=dict(family="DM Serif Display", size=16, color="#e8e4dc"),
-            xaxis_title_font=dict(family="DM Mono", size=11, color="#666"),
-            yaxis_title_font=dict(family="DM Mono", size=11, color="#666"),
+            xaxis=dict(title="Days Since Last Purchase", title_font=dict(family="DM Mono", size=11, color="#666"), **AXIS_STYLE),
+            yaxis=dict(title="Total Spend (£)", title_font=dict(family="DM Mono", size=11, color="#666"), **AXIS_STYLE),
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
 
@@ -726,6 +730,8 @@ with tab2:
             fig_hist.update_layout(
                 **CHART_LAYOUT,
                 title=dict(text=label, font=dict(family="DM Serif Display", size=14, color="#e8e4dc")),
+                xaxis=dict(**AXIS_STYLE),
+                yaxis=dict(**AXIS_STYLE),
                 showlegend=False,
                 bargap=0.05,
             )
@@ -831,7 +837,7 @@ with tab4:
             title=dict(text="Export Breakdown by Segment",
                        font=dict(family="DM Serif Display", size=16, color="#e8e4dc")),
             showlegend=False,
-            xaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+            xaxis=dict(**AXIS_STYLE),
             yaxis=dict(gridcolor="rgba(0,0,0,0)", tickfont=dict(size=11, color="#888")),
         )
         st.plotly_chart(fig_exp, use_container_width=True)
