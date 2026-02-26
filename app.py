@@ -24,11 +24,11 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-.stApp { background-color: #0a0a0f; color: #e8e4dc; }
+.stApp { background-color: #f7f5f0; color: #1a1a2e; }
 
 section[data-testid="stSidebar"] {
-    background-color: #0f0f18;
-    border-right: 1px solid #1e1e2e;
+    background-color: #f0ede6;
+    border-right: 1px solid #ddd8ce;
 }
 section[data-testid="stSidebar"] .stMarkdown p {
     color: #888; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -36,12 +36,12 @@ section[data-testid="stSidebar"] .stMarkdown p {
 
 h1 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 2.8rem !important; color: #e8e4dc !important;
+    font-size: 2.8rem !important; color: #1a1a2e !important;
     letter-spacing: -0.02em; line-height: 1.1;
 }
 h2 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 1.6rem !important; color: #e8e4dc !important;
+    font-size: 1.6rem !important; color: #1a1a2e !important;
 }
 h3 {
     font-family: 'DM Sans', sans-serif !important;
@@ -51,29 +51,29 @@ h3 {
 }
 
 [data-testid="metric-container"] {
-    background: #12121c; border: 1px solid #1e1e2e;
+    background: #eceae4; border: 1px solid #ddd8ce;
     border-radius: 4px; padding: 20px 24px;
 }
 [data-testid="metric-container"] label {
-    color: #555 !important; font-size: 11px !important;
+    color: #888 !important; font-size: 11px !important;
     letter-spacing: 0.1em !important; text-transform: uppercase !important;
     font-family: 'DM Mono', monospace !important;
 }
 [data-testid="metric-container"] [data-testid="stMetricValue"] {
-    color: #e8e4dc !important; font-family: 'DM Serif Display', serif !important;
+    color: #1a1a2e !important; font-family: 'DM Serif Display', serif !important;
     font-size: 2rem !important;
 }
 
 .stDownloadButton button {
-    background: #e8e4dc !important; color: #0a0a0f !important;
+    background: #1a1a2e !important; color: #f7f5f0 !important;
     border: none !important; border-radius: 2px !important;
     font-family: 'DM Mono', monospace !important; font-size: 11px !important;
     letter-spacing: 0.08em !important; text-transform: uppercase !important;
     font-weight: 500 !important; padding: 8px 20px !important;
 }
-.stDownloadButton button:hover { background: #c8c4bc !important; }
+.stDownloadButton button:hover { background: #2e2e4e !important; }
 
-hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
+hr { border-color: #ddd8ce !important; margin: 32px 0 !important; }
 
 .stSelectbox label, .stMultiSelect label {
     color: #666 !important; font-size: 11px !important;
@@ -82,7 +82,7 @@ hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
 }
 
 .insight-box {
-    background: #12121c; border-left: 2px solid #c8b87a;
+    background: #eceae4; border-left: 2px solid #b8a060;
     padding: 16px 20px; margin: 16px 0; border-radius: 0 4px 4px 0;
 }
 .insight-box p {
@@ -96,7 +96,7 @@ hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    background: transparent; border-bottom: 1px solid #1e1e2e; gap: 0;
+    background: transparent; border-bottom: 1px solid #ddd8ce; gap: 0;
 }
 .stTabs [data-baseweb="tab"] {
     background: transparent; color: #444;
@@ -105,7 +105,7 @@ hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
     padding: 12px 24px; border: none; border-bottom: 2px solid transparent;
 }
 .stTabs [aria-selected="true"] {
-    color: #e8e4dc !important; border-bottom: 2px solid #c8b87a !important;
+    color: #1a1a2e !important; border-bottom: 2px solid #b8a060 !important;
     background: transparent !important;
 }
 </style>
@@ -146,12 +146,12 @@ SEGMENT_DESCRIPTIONS = {
 # ─────────────────────────────────────────────
 def base_layout(title_text=None, title_size=16):
     layout = dict(
-        paper_bgcolor="#0a0a0f",
-        plot_bgcolor="#0a0a0f",
-        font=dict(family="DM Sans", color="#888", size=11),
+        paper_bgcolor="#f7f5f0",
+        plot_bgcolor="#f7f5f0",
+        font=dict(family="DM Sans", color="#666", size=11),
         margin=dict(l=20, r=20, t=40, b=20),
         legend=dict(
-            bgcolor="#12121c", bordercolor="#1e1e2e", borderwidth=1,
+            bgcolor="#f0ede6", bordercolor="#ddd8ce", borderwidth=1,
             font=dict(size=11, color="#888"),
         ),
     )
@@ -165,7 +165,7 @@ def base_layout(title_text=None, title_size=16):
 
 def grid_axis(**kwargs):
     """Axis style with grid lines."""
-    return dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25", **kwargs)
+    return dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2", **kwargs)
 
 
 def no_grid_axis(**kwargs):
@@ -310,6 +310,18 @@ with st.sidebar:
 # ─────────────────────────────────────────────
 st.markdown("# Customer Intelligence")
 st.markdown("#### RFM Segmentation — UCI Online Retail II")
+st.markdown(
+    "<p style=\"font-family:'DM Sans',sans-serif; font-size:14px; color:#666; "
+    "max-width:820px; line-height:1.7; margin-bottom:8px;\">"
+    "Transactional data from a UK-based online gift and homeware retailer, covering "
+    "December 2009 to December 2011. Customers are predominantly wholesale buyers — "
+    "small businesses and gift shops across the UK and Europe — purchasing items such "
+    "as decorative homewares, seasonal gifts, and novelty products. "
+    "The dataset contains over one million individual line items across "
+    "approximately 25,000 unique customers."
+    "</p>",
+    unsafe_allow_html=True,
+)
 st.markdown("---")
 
 with st.spinner("Loading dataset..."):
@@ -400,13 +412,13 @@ with tab1:
             marker_color=[SEGMENT_COLOURS.get(s, "#888") for s in seg_rev["segment"]],
             text=[f"£{v:,.0f}" for v in seg_rev["total_revenue"]],
             textposition="outside",
-            textfont=dict(family="DM Mono", size=10, color="#888"),
+            textfont=dict(family="DM Mono", size=10, color="#666"),
         ))
         fig_rev.update_layout(
             **base_layout("Revenue by Segment"),
             showlegend=False,
             xaxis=dict(showticklabels=False,
-                       gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+                       gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
             yaxis=dict(gridcolor="rgba(0,0,0,0)",
                        tickfont=dict(size=11, color="#888")),
         )
@@ -423,7 +435,7 @@ with tab1:
             desc   = SEGMENT_DESCRIPTIONS.get(row["segment"], "")
             with cols[j]:
                 st.markdown(f"""
-                <div style="background:#12121c;border:1px solid #1e1e2e;
+                <div style="background:#eceae4;border:1px solid #ddd8ce;
                             border-top:2px solid {colour};border-radius:4px;
                             padding:20px 24px;margin-bottom:16px;">
                   <div style="font-family:'DM Mono',monospace;font-size:10px;
@@ -431,7 +443,7 @@ with tab1:
                               text-transform:uppercase;margin-bottom:8px;">
                     {row['segment']}</div>
                   <div style="font-family:'DM Serif Display',serif;
-                              font-size:2rem;color:#e8e4dc;margin-bottom:4px;">
+                              font-size:2rem;color:#1a1a2e;margin-bottom:4px;">
                     {row['customers']:,}</div>
                   <div style="font-family:'DM Mono',monospace;font-size:11px;
                               color:#555;margin-bottom:12px;">
@@ -444,7 +456,7 @@ with tab1:
                                   color:#444;text-transform:uppercase;">
                         Avg Recency</div>
                       <div style="font-family:'DM Serif Display',serif;
-                                  font-size:1.1rem;color:#aaa;">
+                                  font-size:1.1rem;color:#555;">
                         {row['avg_recency']:.0f}d</div>
                     </div>
                     <div>
@@ -452,7 +464,7 @@ with tab1:
                                   color:#444;text-transform:uppercase;">
                         Avg Orders</div>
                       <div style="font-family:'DM Serif Display',serif;
-                                  font-size:1.1rem;color:#aaa;">
+                                  font-size:1.1rem;color:#555;">
                         {row['avg_frequency']:.1f}x</div>
                     </div>
                     <div>
@@ -460,13 +472,13 @@ with tab1:
                                   color:#444;text-transform:uppercase;">
                         Avg Spend</div>
                       <div style="font-family:'DM Serif Display',serif;
-                                  font-size:1.1rem;color:#aaa;">
+                                  font-size:1.1rem;color:#555;">
                         £{row['avg_monetary']:,.0f}</div>
                     </div>
                   </div>
                   <div style="font-family:'DM Sans',sans-serif;font-size:12px;
                               color:#555;line-height:1.5;
-                              border-top:1px solid #1e1e2e;padding-top:12px;">
+                              border-top:1px solid #ddd8ce;padding-top:12px;">
                     {desc}</div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -488,7 +500,7 @@ with tab2:
             z=pivot.values,
             x=[f"F={c}" for c in pivot.columns],
             y=[f"R={r}" for r in pivot.index],
-            colorscale=[[0, "#12121c"], [0.5, "#8b6914"], [1, "#c8b87a"]],
+            colorscale=[[0, "#f0ede6"], [0.5, "#c8a840"], [1, "#8b6000"]],
             text=[[f"£{v:,.0f}" for v in row] for row in pivot.values],
             texttemplate="%{text}",
             textfont=dict(family="DM Mono", size=10),
@@ -523,10 +535,10 @@ with tab2:
             **base_layout("Recency vs Monetary Value"),
             xaxis=dict(title="Days Since Last Purchase",
                        title_font=dict(family="DM Mono", size=11, color="#666"),
-                       gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+                       gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
             yaxis=dict(title="Total Spend (£)",
                        title_font=dict(family="DM Mono", size=11, color="#666"),
-                       gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+                       gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
         st.markdown("""
@@ -545,16 +557,16 @@ with tab2:
     ]:
         with col:
             fig_hist = px.histogram(rfm, x=series, nbins=40,
-                                    color_discrete_sequence=["#c8b87a"])
+                                    color_discrete_sequence=["#8b6000"])
             fig_hist.update_layout(
                 **base_layout(label, title_size=13),
                 showlegend=False,
                 bargap=0.05,
-                xaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
-                yaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+                xaxis=dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
+                yaxis=dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2", title=""),
             )
             fig_hist.update_traces(
-                marker_line_color="#0a0a0f", marker_line_width=0.5)
+                marker_line_color="#f7f5f0", marker_line_width=0.5)
             st.plotly_chart(fig_hist, use_container_width=True)
 
 # ══════════════════════════════════════════
@@ -628,7 +640,7 @@ with tab4:
         fig_exp.update_layout(
             **base_layout("Export Breakdown by Segment"),
             showlegend=False,
-            xaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+            xaxis=dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
             yaxis=dict(gridcolor="rgba(0,0,0,0)",
                        tickfont=dict(size=11, color="#888")),
         )
