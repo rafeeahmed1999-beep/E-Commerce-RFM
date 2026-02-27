@@ -795,9 +795,9 @@ with tab3:
         showscale=True,
         zmin=0, zmax=100,
         colorbar=dict(
-            title="Retention %",
+            title=dict(text="Retention %",
+                       font=dict(family="DM Mono", size=10, color="#888")),
             tickfont=dict(family="DM Mono", size=10, color="#888"),
-            titlefont=dict(family="DM Mono", size=10, color="#888"),
         ),
     ))
     fig_cohort.update_layout(
