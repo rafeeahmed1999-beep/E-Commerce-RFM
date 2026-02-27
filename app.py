@@ -52,20 +52,16 @@ h3 {
     transition: background 0.25s ease, border-color 0.25s ease;
     cursor: default;
 }
-[data-testid="metric-container"].rfm-hovered {
-    background: #1e1e32 !important;
-    border-color: #c8b87a !important;
-}
 [data-testid="metric-container"] label,
 [data-testid="metric-container"] [data-testid="stMetricLabel"] p,
 [data-testid="metric-container"] [data-testid="stMetricLabel"] span {
-    color: #999 !important; font-size: 11px !important;
+    color: #bbb !important; font-size: 11px !important;
     letter-spacing: 0.1em !important; text-transform: uppercase !important;
     font-family: 'DM Mono', monospace !important;
 }
 [data-testid="metric-container"] [data-testid="stMetricValue"],
 [data-testid="metric-container"] [data-testid="stMetricValue"] * {
-    color: #f0e8d0 !important;
+    color: #ffffff !important;
     font-family: 'DM Serif Display', serif !important;
     font-size: 2rem !important;
 }
@@ -117,24 +113,6 @@ hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# JS hover for metric tiles
-st.markdown("""
-<script>
-(function() {
-    function attachHover() {
-        var tiles = document.querySelectorAll('[data-testid="metric-container"]');
-        tiles.forEach(function(tile) {
-            if (tile.dataset.hoverAttached) return;
-            tile.dataset.hoverAttached = 'true';
-            tile.addEventListener('mouseenter', function() { this.classList.add('rfm-hovered'); });
-            tile.addEventListener('mouseleave', function() { this.classList.remove('rfm-hovered'); });
-        });
-    }
-    new MutationObserver(attachHover).observe(document.body, {childList:true, subtree:true});
-    attachHover();
-})();
-</script>
-""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # CONSTANTS
