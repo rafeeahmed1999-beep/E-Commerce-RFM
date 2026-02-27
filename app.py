@@ -343,11 +343,11 @@ def compute_rfm(df: pd.DataFrame) -> pd.DataFrame:
     ).reset_index()
     rfm["recency"] = (snapshot - rfm["last_purchase"]).dt.days
     rfm["r_score"] = pd.qcut(rfm["recency"],
-                              q=5, labels=[5, 4, 3, 2, 1]).astype(int)
+                              q=5, labels=[5, 4, 3, 2, 1], duplicates="drop").astype(int)
     rfm["f_score"] = pd.qcut(rfm["frequency"].rank(method="first"),
-                              q=5, labels=[1, 2, 3, 4, 5]).astype(int)
+                              q=5, labels=[1, 2, 3, 4, 5], duplicates="drop").astype(int)
     rfm["m_score"] = pd.qcut(rfm["monetary"].rank(method="first"),
-                              q=5, labels=[1, 2, 3, 4, 5]).astype(int)
+                              q=5, labels=[1, 2, 3, 4, 5], duplicates="drop").astype(int)
     rfm["rfm_score"]   = (rfm["r_score"].astype(str)
                           + rfm["f_score"].astype(str)
                           + rfm["m_score"].astype(str))
