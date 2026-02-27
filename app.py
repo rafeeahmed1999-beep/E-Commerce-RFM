@@ -342,12 +342,15 @@ def compute_rfm(df: pd.DataFrame) -> pd.DataFrame:
         monetary     =("revenue",     "sum"),
     ).reset_index()
     rfm["recency"] = (snapshot - rfm["last_purchase"]).dt.days
-    rfm["r_score"] = pd.qcut(rfm["recency"],
-                              q=5, labels=[5, 4, 3, 2, 1], duplicates="drop").astype(int)
-    rfm["f_score"] = pd.qcut(rfm["frequency"].rank(method="first"),
-                              q=5, labels=[1, 2, 3, 4, 5], duplicates="drop").astype(int)
-    rfm["m_score"] = pd.qcut(rfm["monetary"].rank(method="first"),
-                              q=5, labels=[1, 2, 3, 4, 5], duplicates="drop").astype(int)
+    def safe_score(series, ascending=True):
+        """Rank-based 1-5 scoring that always produces 5 distinct values."""
+        ranked = series.rank(method="first", ascending=ascending)
+        return (pd.qcut(ranked, q=5, labels=[1, 2, 3, 4, 5], duplicates="drop")
+                  .cat.codes.add(1).clip(1, 5))
+
+    rfm["r_score"] = safe_score(rfm["recency"],   ascending=False)  # lower recency = better
+    rfm["f_score"] = safe_score(rfm["frequency"],  ascending=True)
+    rfm["m_score"] = safe_score(rfm["monetary"],   ascending=True)
     rfm["rfm_score"]   = (rfm["r_score"].astype(str)
                           + rfm["f_score"].astype(str)
                           + rfm["m_score"].astype(str))
