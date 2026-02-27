@@ -273,67 +273,6 @@ def make_targeting_list(rfm: pd.DataFrame, segments: list) -> pd.DataFrame:
     }).reset_index(drop=True)
 
 
-# ─────────────────────────────────────────────
-# SIDEBAR
-# ─────────────────────────────────────────────
-with st.sidebar:
-    st.markdown("## ◈ RFM Intelligence")
-    st.markdown("---")
-
-    st.markdown("**Demo Dataset**")
-    dataset_choice = st.selectbox(
-        "Select a dataset",
-        options=[
-            "UCI Online Retail II — UK Gift Retailer",
-            "Brazilian E-Commerce (Olist) — Marketplace",
-            "Instacart — US Grocery Delivery",
-        ],
-        help="Switch between publicly available retail datasets to see how segments change across industries.",
-    )
-
-    st.markdown("---")
-    st.markdown("**Custom Dataset**")
-    uploaded = st.file_uploader(
-        "Upload your own retail data",
-        type=["xlsx", "csv"],
-        help="Optional — overrides the demo dataset above.",
-    )
-
-    st.markdown("---")
-    st.markdown("**Filters**")
-    country_filter = st.selectbox(
-        "Country", ["All Countries", "United Kingdom"]
-    )
-    st.markdown("---")
-    st.markdown("**Targeting Export**")
-    all_segments = list(SEGMENT_COLOURS.keys())
-    selected_segments = st.multiselect(
-        "Segments to export",
-        options=all_segments,
-        default=["Champions", "At Risk", "Cannot Lose Them"],
-    )
-    st.markdown("---")
-    st.markdown(
-        "<p>Switch datasets in the selector above to see RFM segmentation "
-        "applied across different retail industries.</p>",
-        unsafe_allow_html=True,
-    )
-
-# ─────────────────────────────────────────────
-# LOAD DATA
-# ─────────────────────────────────────────────
-st.markdown("# Customer Intelligence")
-st.markdown("#### RFM Segmentation — " + (uploaded.name if uploaded else dataset_choice))
-_desc = (DATASET_META.get(dataset_choice, {}).get("description", "")
-         if uploaded is None else
-         "Custom uploaded dataset.")
-st.markdown(
-    f"<p style='font-family:DM Sans,sans-serif; font-size:14px; color:#888; "
-    f"max-width:820px; line-height:1.7; margin-bottom:8px;'>{_desc}</p>",
-    unsafe_allow_html=True,
-)
-st.markdown("---")
-
 @st.cache_data(show_spinner=False)
 def load_olist() -> pd.DataFrame:
     """
@@ -431,6 +370,67 @@ DATASET_META = {
         "loader": "instacart",
     },
 }
+
+# ─────────────────────────────────────────────
+# SIDEBAR
+# ─────────────────────────────────────────────
+with st.sidebar:
+    st.markdown("## ◈ RFM Intelligence")
+    st.markdown("---")
+
+    st.markdown("**Demo Dataset**")
+    dataset_choice = st.selectbox(
+        "Select a dataset",
+        options=[
+            "UCI Online Retail II — UK Gift Retailer",
+            "Brazilian E-Commerce (Olist) — Marketplace",
+            "Instacart — US Grocery Delivery",
+        ],
+        help="Switch between publicly available retail datasets to see how segments change across industries.",
+    )
+
+    st.markdown("---")
+    st.markdown("**Custom Dataset**")
+    uploaded = st.file_uploader(
+        "Upload your own retail data",
+        type=["xlsx", "csv"],
+        help="Optional — overrides the demo dataset above.",
+    )
+
+    st.markdown("---")
+    st.markdown("**Filters**")
+    country_filter = st.selectbox(
+        "Country", ["All Countries", "United Kingdom"]
+    )
+    st.markdown("---")
+    st.markdown("**Targeting Export**")
+    all_segments = list(SEGMENT_COLOURS.keys())
+    selected_segments = st.multiselect(
+        "Segments to export",
+        options=all_segments,
+        default=["Champions", "At Risk", "Cannot Lose Them"],
+    )
+    st.markdown("---")
+    st.markdown(
+        "<p>Switch datasets in the selector above to see RFM segmentation "
+        "applied across different retail industries.</p>",
+        unsafe_allow_html=True,
+    )
+
+# ─────────────────────────────────────────────
+# LOAD DATA
+# ─────────────────────────────────────────────
+st.markdown("# Customer Intelligence")
+st.markdown("#### RFM Segmentation — " + (uploaded.name if uploaded else dataset_choice))
+_desc = (DATASET_META.get(dataset_choice, {}).get("description", "")
+         if uploaded is None else
+         "Custom uploaded dataset.")
+st.markdown(
+    f"<p style='font-family:DM Sans,sans-serif; font-size:14px; color:#888; "
+    f"max-width:820px; line-height:1.7; margin-bottom:8px;'>{_desc}</p>",
+    unsafe_allow_html=True,
+)
+st.markdown("---")
 
 with st.spinner("Loading dataset..."):
     try:
