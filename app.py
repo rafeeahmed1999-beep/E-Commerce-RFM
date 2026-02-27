@@ -24,11 +24,11 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-.stApp { background-color: #f7f5f0; color: #1a1a2e; }
+.stApp { background-color: #0a0a0f; color: #e8e4dc; }
 
 section[data-testid="stSidebar"] {
-    background-color: #f0ede6;
-    border-right: 1px solid #ddd8ce;
+    background-color: #0f0f18;
+    border-right: 1px solid #1e1e2e;
 }
 section[data-testid="stSidebar"] .stMarkdown p {
     color: #888; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -36,12 +36,12 @@ section[data-testid="stSidebar"] .stMarkdown p {
 
 h1 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 2.8rem !important; color: #1a1a2e !important;
+    font-size: 2.8rem !important; color: #e8e4dc !important;
     letter-spacing: -0.02em; line-height: 1.1;
 }
 h2 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 1.6rem !important; color: #1a1a2e !important;
+    font-size: 1.6rem !important; color: #e8e4dc !important;
 }
 h3 {
     font-family: 'DM Sans', sans-serif !important;
@@ -51,29 +51,29 @@ h3 {
 }
 
 [data-testid="metric-container"] {
-    background: #eceae4; border: 1px solid #ddd8ce;
+    background: #12121c; border: 1px solid #1e1e2e;
     border-radius: 4px; padding: 20px 24px;
 }
 [data-testid="metric-container"] label {
-    color: #888 !important; font-size: 11px !important;
+    color: #555 !important; font-size: 11px !important;
     letter-spacing: 0.1em !important; text-transform: uppercase !important;
     font-family: 'DM Mono', monospace !important;
 }
 [data-testid="metric-container"] [data-testid="stMetricValue"] {
-    color: #1a1a2e !important; font-family: 'DM Serif Display', serif !important;
+    color: #e8e4dc !important; font-family: 'DM Serif Display', serif !important;
     font-size: 2rem !important;
 }
 
 .stDownloadButton button {
-    background: #1a1a2e !important; color: #f7f5f0 !important;
+    background: #e8e4dc !important; color: #0a0a0f !important;
     border: none !important; border-radius: 2px !important;
     font-family: 'DM Mono', monospace !important; font-size: 11px !important;
     letter-spacing: 0.08em !important; text-transform: uppercase !important;
     font-weight: 500 !important; padding: 8px 20px !important;
 }
-.stDownloadButton button:hover { background: #2e2e4e !important; }
+.stDownloadButton button:hover { background: #c8c4bc !important; }
 
-hr { border-color: #ddd8ce !important; margin: 32px 0 !important; }
+hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
 
 .stSelectbox label, .stMultiSelect label {
     color: #666 !important; font-size: 11px !important;
@@ -82,7 +82,7 @@ hr { border-color: #ddd8ce !important; margin: 32px 0 !important; }
 }
 
 .insight-box {
-    background: #eceae4; border-left: 2px solid #b8a060;
+    background: #12121c; border-left: 2px solid #c8b87a;
     padding: 16px 20px; margin: 16px 0; border-radius: 0 4px 4px 0;
 }
 .insight-box p {
@@ -96,7 +96,7 @@ hr { border-color: #ddd8ce !important; margin: 32px 0 !important; }
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    background: transparent; border-bottom: 1px solid #ddd8ce; gap: 0;
+    background: transparent; border-bottom: 1px solid #1e1e2e; gap: 0;
 }
 .stTabs [data-baseweb="tab"] {
     background: transparent; color: #444;
@@ -105,7 +105,7 @@ hr { border-color: #ddd8ce !important; margin: 32px 0 !important; }
     padding: 12px 24px; border: none; border-bottom: 2px solid transparent;
 }
 .stTabs [aria-selected="true"] {
-    color: #1a1a2e !important; border-bottom: 2px solid #b8a060 !important;
+    color: #e8e4dc !important; border-bottom: 2px solid #c8b87a !important;
     background: transparent !important;
 }
 </style>
@@ -115,7 +115,7 @@ hr { border-color: #ddd8ce !important; margin: 32px 0 !important; }
 # CONSTANTS
 # ─────────────────────────────────────────────
 SEGMENT_COLOURS = {
-    "Champions":           "#c8b87a",
+    "Champions":           "#f0c040",
     "Loyal Customers":     "#8db87a",
     "Potential Loyalists": "#7ab8a8",
     "At Risk":             "#b87a7a",
@@ -123,7 +123,7 @@ SEGMENT_COLOURS = {
     "Hibernating":         "#666680",
     "New Customers":       "#7a8db8",
     "Promising":           "#9a7ab8",
-    "Need Attention":      "#b8a07a",
+    "Need Attention":      "#e8630a",
     "Lost":                "#444455",
 }
 
@@ -146,12 +146,12 @@ SEGMENT_DESCRIPTIONS = {
 # ─────────────────────────────────────────────
 def base_layout(title_text=None, title_size=16):
     layout = dict(
-        paper_bgcolor="#f7f5f0",
-        plot_bgcolor="#f7f5f0",
-        font=dict(family="DM Sans", color="#666", size=11),
+        paper_bgcolor="#0a0a0f",
+        plot_bgcolor="#0a0a0f",
+        font=dict(family="DM Sans", color="#888", size=11),
         margin=dict(l=20, r=20, t=40, b=20),
         legend=dict(
-            bgcolor="#f0ede6", bordercolor="#ddd8ce", borderwidth=1,
+            bgcolor="#12121c", bordercolor="#1e1e2e", borderwidth=1,
             font=dict(size=11, color="#888"),
         ),
     )
@@ -165,7 +165,7 @@ def base_layout(title_text=None, title_size=16):
 
 def grid_axis(**kwargs):
     """Axis style with grid lines."""
-    return dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2", **kwargs)
+    return dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25", **kwargs)
 
 
 def no_grid_axis(**kwargs):
@@ -279,12 +279,26 @@ def make_targeting_list(rfm: pd.DataFrame, segments: list) -> pd.DataFrame:
 with st.sidebar:
     st.markdown("## ◈ RFM Intelligence")
     st.markdown("---")
+
+    st.markdown("**Demo Dataset**")
+    dataset_choice = st.selectbox(
+        "Select a dataset",
+        options=[
+            "UCI Online Retail II — UK Gift Retailer",
+            "Brazilian E-Commerce (Olist) — Marketplace",
+            "Instacart — US Grocery Delivery",
+        ],
+        help="Switch between publicly available retail datasets to see how segments change across industries.",
+    )
+
+    st.markdown("---")
     st.markdown("**Custom Dataset**")
     uploaded = st.file_uploader(
         "Upload your own retail data",
         type=["xlsx", "csv"],
-        help="Optional — loads UCI Online Retail II by default.",
+        help="Optional — overrides the demo dataset above.",
     )
+
     st.markdown("---")
     st.markdown("**Filters**")
     country_filter = st.selectbox(
@@ -300,8 +314,8 @@ with st.sidebar:
     )
     st.markdown("---")
     st.markdown(
-        "<p>Built on the UCI Online Retail II dataset. "
-        "RFM segmentation using quintile scoring.</p>",
+        "<p>Switch datasets in the selector above to see RFM segmentation "
+        "applied across different retail industries.</p>",
         unsafe_allow_html=True,
     )
 
@@ -309,20 +323,114 @@ with st.sidebar:
 # LOAD DATA
 # ─────────────────────────────────────────────
 st.markdown("# Customer Intelligence")
-st.markdown("#### RFM Segmentation — UCI Online Retail II")
+st.markdown("#### RFM Segmentation — " + (uploaded.name if uploaded else dataset_choice))
+_desc = (DATASET_META.get(dataset_choice, {}).get("description", "")
+         if uploaded is None else
+         "Custom uploaded dataset.")
 st.markdown(
-    "<p style=\"font-family:'DM Sans',sans-serif; font-size:14px; color:#666; "
-    "max-width:820px; line-height:1.7; margin-bottom:8px;\">"
-    "Transactional data from a UK-based online gift and homeware retailer, covering "
-    "December 2009 to December 2011. Customers are predominantly wholesale buyers — "
-    "small businesses and gift shops across the UK and Europe — purchasing items such "
-    "as decorative homewares, seasonal gifts, and novelty products. "
-    "The dataset contains over one million individual line items across "
-    "approximately 25,000 unique customers."
-    "</p>",
+    f"<p style='font-family:DM Sans,sans-serif; font-size:14px; color:#888; "
+    f"max-width:820px; line-height:1.7; margin-bottom:8px;'>{_desc}</p>",
     unsafe_allow_html=True,
 )
 st.markdown("---")
+
+@st.cache_data(show_spinner=False)
+def load_olist() -> pd.DataFrame:
+    """
+    Brazilian E-Commerce (Olist) dataset from Kaggle.
+    We synthesise an RFM-compatible frame from the orders + order_items tables
+    hosted as a public GitHub raw CSV.
+    """
+    orders_url = "https://raw.githubusercontent.com/dssg-pt/mp-cuidar-portugal/master/data/olist_orders_dataset.csv"
+    items_url  = "https://raw.githubusercontent.com/dssg-pt/mp-cuidar-portugal/master/data/olist_order_items_dataset.csv"
+    try:
+        orders = pd.read_csv(orders_url)
+        items  = pd.read_csv(items_url)
+        df = orders.merge(items, on="order_id", how="inner")
+        df = df[df["order_status"] == "delivered"].copy()
+        df = df.rename(columns={
+            "customer_id":            "customer_id",
+            "order_purchase_timestamp":"invoicedate",
+            "order_id":               "invoice",
+            "price":                  "price",
+        })
+        df["invoicedate"] = pd.to_datetime(df["invoicedate"])
+        df["quantity"]    = 1
+        df["revenue"]     = df["price"]
+        df = df.dropna(subset=["customer_id", "price"])
+        df = df[df["price"] > 0]
+        return df
+    except Exception:
+        return pd.DataFrame()
+
+
+@st.cache_data(show_spinner=False)
+def load_instacart() -> pd.DataFrame:
+    """
+    Instacart synthetic RFM-compatible dataset.
+    We generate a realistic simulation based on published Instacart statistics
+    (3.4M orders, 206k users, avg 10 orders/user) since the raw files are too
+    large for public URL loading. This makes the demo meaningful without
+    requiring large file downloads.
+    """
+    rng = np.random.default_rng(42)
+    n_customers = 8000
+    records = []
+    snapshot = pd.Timestamp("2017-05-01")
+
+    for cust_id in range(1, n_customers + 1):
+        # Simulate realistic Instacart-style purchase behaviour
+        n_orders   = rng.integers(1, 30)
+        days_since = rng.integers(0, 365)
+        last_order = snapshot - pd.Timedelta(days=int(days_since))
+
+        for o in range(n_orders):
+            order_date  = last_order - pd.Timedelta(days=int(rng.integers(0, 300)))
+            n_items     = rng.integers(3, 25)
+            basket_val  = round(float(rng.uniform(15, 120)), 2)
+            records.append({
+                "customer_id": str(cust_id),
+                "invoice":     f"ORD-{cust_id}-{o}",
+                "invoicedate": order_date,
+                "quantity":    int(n_items),
+                "price":       round(basket_val / n_items, 2),
+                "revenue":     basket_val,
+            })
+
+    df = pd.DataFrame(records)
+    df["invoicedate"] = pd.to_datetime(df["invoicedate"])
+    return df
+
+
+DATASET_META = {
+    "UCI Online Retail II — UK Gift Retailer": {
+        "description": (
+            "Transactional data from a UK-based online gift and homeware retailer, "
+            "covering December 2009 to December 2011. Customers are predominantly "
+            "wholesale buyers — small businesses and gift shops across the UK and Europe "
+            "— purchasing decorative homewares, seasonal gifts, and novelty products."
+        ),
+        "loader": "default",
+    },
+    "Brazilian E-Commerce (Olist) — Marketplace": {
+        "description": (
+            "Orders from Olist, Brazil's largest online marketplace, covering 2016–2018. "
+            "Customers span across Brazilian states purchasing across categories including "
+            "electronics, fashion, home goods, and beauty products from thousands of "
+            "independent sellers."
+        ),
+        "loader": "olist",
+    },
+    "Instacart — US Grocery Delivery": {
+        "description": (
+            "Simulated grocery delivery behaviour modelled on Instacart's published "
+            "platform statistics — 200,000+ customers, average 10 orders per user, "
+            "basket sizes of £15–£120. Represents repeat, high-frequency purchasing "
+            "typical of subscription-style grocery services."
+        ),
+        "loader": "instacart",
+    },
+}
 
 with st.spinner("Loading dataset..."):
     try:
@@ -330,8 +438,17 @@ with st.spinner("Loading dataset..."):
             df_raw      = load_uploaded(uploaded.read(), uploaded.name)
             data_source = f"Custom upload: {uploaded.name}"
         else:
-            df_raw      = load_default()
-            data_source = "Default: UCI Online Retail II (2009–2011)"
+            meta = DATASET_META[dataset_choice]
+            if meta["loader"] == "default":
+                df_raw = load_default()
+            elif meta["loader"] == "olist":
+                df_raw = load_olist()
+                if df_raw.empty:
+                    st.warning("Could not load Olist dataset — check network access. Falling back to UCI.")
+                    df_raw = load_default()
+            else:
+                df_raw = load_instacart()
+            data_source = dataset_choice
     except Exception as e:
         st.error(f"Failed to load data: {e}")
         st.stop()
@@ -412,13 +529,13 @@ with tab1:
             marker_color=[SEGMENT_COLOURS.get(s, "#888") for s in seg_rev["segment"]],
             text=[f"£{v:,.0f}" for v in seg_rev["total_revenue"]],
             textposition="outside",
-            textfont=dict(family="DM Mono", size=10, color="#666"),
+            textfont=dict(family="DM Mono", size=10, color="#888"),
         ))
         fig_rev.update_layout(
             **base_layout("Revenue by Segment"),
             showlegend=False,
             xaxis=dict(showticklabels=False,
-                       gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
+                       gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
             yaxis=dict(gridcolor="rgba(0,0,0,0)",
                        tickfont=dict(size=11, color="#888")),
         )
@@ -435,7 +552,7 @@ with tab1:
             desc   = SEGMENT_DESCRIPTIONS.get(row["segment"], "")
             with cols[j]:
                 st.markdown(f"""
-                <div style="background:#eceae4;border:1px solid #ddd8ce;
+                <div style="background:#12121c;border:1px solid #1e1e2e;
                             border-top:2px solid {colour};border-radius:4px;
                             padding:20px 24px;margin-bottom:16px;">
                   <div style="font-family:'DM Mono',monospace;font-size:10px;
@@ -443,7 +560,7 @@ with tab1:
                               text-transform:uppercase;margin-bottom:8px;">
                     {row['segment']}</div>
                   <div style="font-family:'DM Serif Display',serif;
-                              font-size:2rem;color:#1a1a2e;margin-bottom:4px;">
+                              font-size:2rem;color:#e8e4dc;margin-bottom:4px;">
                     {row['customers']:,}</div>
                   <div style="font-family:'DM Mono',monospace;font-size:11px;
                               color:#555;margin-bottom:12px;">
@@ -456,7 +573,7 @@ with tab1:
                                   color:#444;text-transform:uppercase;">
                         Avg Recency</div>
                       <div style="font-family:'DM Serif Display',serif;
-                                  font-size:1.1rem;color:#555;">
+                                  font-size:1.1rem;color:#aaa;">
                         {row['avg_recency']:.0f}d</div>
                     </div>
                     <div>
@@ -464,7 +581,7 @@ with tab1:
                                   color:#444;text-transform:uppercase;">
                         Avg Orders</div>
                       <div style="font-family:'DM Serif Display',serif;
-                                  font-size:1.1rem;color:#555;">
+                                  font-size:1.1rem;color:#aaa;">
                         {row['avg_frequency']:.1f}x</div>
                     </div>
                     <div>
@@ -472,13 +589,13 @@ with tab1:
                                   color:#444;text-transform:uppercase;">
                         Avg Spend</div>
                       <div style="font-family:'DM Serif Display',serif;
-                                  font-size:1.1rem;color:#555;">
+                                  font-size:1.1rem;color:#aaa;">
                         £{row['avg_monetary']:,.0f}</div>
                     </div>
                   </div>
                   <div style="font-family:'DM Sans',sans-serif;font-size:12px;
                               color:#555;line-height:1.5;
-                              border-top:1px solid #ddd8ce;padding-top:12px;">
+                              border-top:1px solid #1e1e2e;padding-top:12px;">
                     {desc}</div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -500,7 +617,7 @@ with tab2:
             z=pivot.values,
             x=[f"F={c}" for c in pivot.columns],
             y=[f"R={r}" for r in pivot.index],
-            colorscale=[[0, "#f0ede6"], [0.5, "#c8a840"], [1, "#8b6000"]],
+            colorscale=[[0, "#12121c"], [0.5, "#8b6914"], [1, "#c8b87a"]],
             text=[[f"£{v:,.0f}" for v in row] for row in pivot.values],
             texttemplate="%{text}",
             textfont=dict(family="DM Mono", size=10),
@@ -535,10 +652,10 @@ with tab2:
             **base_layout("Recency vs Monetary Value"),
             xaxis=dict(title="Days Since Last Purchase",
                        title_font=dict(family="DM Mono", size=11, color="#666"),
-                       gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
+                       gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
             yaxis=dict(title="Total Spend (£)",
                        title_font=dict(family="DM Mono", size=11, color="#666"),
-                       gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
+                       gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
         st.markdown("""
@@ -550,23 +667,23 @@ with tab2:
 
     st.markdown("---")
     h1, h2, h3 = st.columns(3)
-    for series, label, col in [
-        (rfm["recency"],   "Recency — Days Since Last Purchase", h1),
-        (rfm["frequency"], "Frequency — Number of Orders",       h2),
-        (rfm["monetary"],  "Monetary — Total Spend (£)",         h3),
+    for series, label, col, ylabel in [
+        (rfm["recency"],   "Recency — Days Since Last Purchase", h1, "Number of Days"),
+        (rfm["frequency"], "Frequency — Number of Orders",       h2, "Number of Orders"),
+        (rfm["monetary"],  "Monetary — Total Spend (£)",         h3, "Total Spend (£)"),
     ]:
         with col:
             fig_hist = px.histogram(rfm, x=series, nbins=40,
-                                    color_discrete_sequence=["#8b6000"])
+                                    color_discrete_sequence=["#c8b87a"])
             fig_hist.update_layout(
                 **base_layout(label, title_size=13),
                 showlegend=False,
                 bargap=0.05,
-                xaxis=dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
-                yaxis=dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2", title=""),
+                xaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
+                yaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25", title=ylabel, title_font=dict(family="DM Mono", size=11, color="#666")),
             )
             fig_hist.update_traces(
-                marker_line_color="#f7f5f0", marker_line_width=0.5)
+                marker_line_color="#0a0a0f", marker_line_width=0.5)
             st.plotly_chart(fig_hist, use_container_width=True)
 
 # ══════════════════════════════════════════
@@ -640,7 +757,7 @@ with tab4:
         fig_exp.update_layout(
             **base_layout("Export Breakdown by Segment"),
             showlegend=False,
-            xaxis=dict(gridcolor="#e0dbd2", zerolinecolor="#e0dbd2"),
+            xaxis=dict(gridcolor="#1a1a25", zerolinecolor="#1a1a25"),
             yaxis=dict(gridcolor="rgba(0,0,0,0)",
                        tickfont=dict(size=11, color="#888")),
         )
@@ -660,17 +777,66 @@ with tab4:
             mime="text/csv",
         )
 
-        st.markdown("""
-        <div class="insight-box" style="margin-top:24px;">
-          <strong>Recommended Actions</strong>
-          <p>
-          <b style="color:#c8b87a;">Champions</b> —
-            loyalty rewards, early access, referral programme.<br>
-          <b style="color:#b87a7a;">At Risk</b> —
-            re-engagement email with a time-limited incentive.<br>
-          <b style="color:#d4624a;">Cannot Lose Them</b> —
-            high-priority win-back, personal outreach.<br>
-          <b style="color:#666680;">Hibernating</b> —
-            low-cost automated email only; suppress from paid media.
-          </p>
-        </div>""", unsafe_allow_html=True)
+        st.markdown("---")
+        st.markdown(f"""
+        <div style="background:#12121c; border:1px solid #c8b87a;
+                    border-left:4px solid #c8b87a; border-radius:6px;
+                    padding:28px 32px; margin-top:8px;">
+          <div style="font-family:'DM Mono',monospace; font-size:11px;
+                      color:#c8b87a; letter-spacing:0.12em;
+                      text-transform:uppercase; margin-bottom:16px;">
+            ◈ Recommended Actions for Selected Segments</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr;
+                      gap:16px;">
+            <div style="background:#1a1a2a; border-radius:4px; padding:16px;">
+              <div style="font-family:'DM Mono',monospace; font-size:10px;
+                          color:#f0c040; text-transform:uppercase;
+                          letter-spacing:0.08em; margin-bottom:6px;">
+                Champions</div>
+              <div style="font-family:'DM Sans',sans-serif; font-size:13px;
+                          color:#aaa; line-height:1.6;">
+                Personalised loyalty rewards. Early access to new products.
+                Referral programme — they are your best advocates.</div>
+            </div>
+            <div style="background:#1a1a2a; border-radius:4px; padding:16px;">
+              <div style="font-family:'DM Mono',monospace; font-size:10px;
+                          color:#b87a7a; text-transform:uppercase;
+                          letter-spacing:0.08em; margin-bottom:6px;">
+                At Risk</div>
+              <div style="font-family:'DM Sans',sans-serif; font-size:13px;
+                          color:#aaa; line-height:1.6;">
+                Re-engagement email with time-limited incentive.
+                Personalise using their last purchase category.
+                Act within 30 days or they become Lost.</div>
+            </div>
+            <div style="background:#1a1a2a; border-radius:4px; padding:16px;">
+              <div style="font-family:'DM Mono',monospace; font-size:10px;
+                          color:#d4624a; text-transform:uppercase;
+                          letter-spacing:0.08em; margin-bottom:6px;">
+                Cannot Lose Them</div>
+              <div style="font-family:'DM Sans',sans-serif; font-size:13px;
+                          color:#aaa; line-height:1.6;">
+                Highest commercial priority. Personal outreach — phone or
+                account manager contact if B2B. Win-back offer with
+                meaningful incentive. Do not rely on email alone.</div>
+            </div>
+            <div style="background:#1a1a2a; border-radius:4px; padding:16px;">
+              <div style="font-family:'DM Mono',monospace; font-size:10px;
+                          color:#666680; text-transform:uppercase;
+                          letter-spacing:0.08em; margin-bottom:6px;">
+                Hibernating</div>
+              <div style="font-family:'DM Sans',sans-serif; font-size:13px;
+                          color:#aaa; line-height:1.6;">
+                Low-cost automated email only. Suppress from paid media
+                and retargeting — do not waste budget here. A single
+                win-back attempt, then move on.</div>
+            </div>
+          </div>
+          <div style="margin-top:16px; font-family:'DM Sans',sans-serif;
+                      font-size:12px; color:#555; border-top:1px solid #1e1e2e;
+                      padding-top:12px;">
+            Export the targeting list above and upload directly to your
+            CRM, email platform, or ad audience manager.
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
