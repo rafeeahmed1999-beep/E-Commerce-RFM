@@ -7,7 +7,7 @@ import io
 from pathlib import Path
 
 st.set_page_config(
-    page_title="RFM Customer Intelligence",
+    page_title="RFM & Acquisition Funnel Customer Intelligence",
     page_icon="◈",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -55,13 +55,13 @@ h3 {
 [data-testid="metric-container"] label,
 [data-testid="metric-container"] [data-testid="stMetricLabel"] p,
 [data-testid="metric-container"] [data-testid="stMetricLabel"] span {
-    color: #bbb !important; font-size: 11px !important;
+    color: #e8e4dc !important; font-size: 11px !important;
     letter-spacing: 0.1em !important; text-transform: uppercase !important;
     font-family: 'DM Mono', monospace !important;
 }
 [data-testid="metric-container"] [data-testid="stMetricValue"],
 [data-testid="metric-container"] [data-testid="stMetricValue"] * {
-    color: #ffffff !important;
+    color: #f0c040 !important;
     font-family: 'DM Serif Display', serif !important;
     font-size: 2rem !important;
 }
@@ -181,8 +181,8 @@ def base_layout(title_text=None, title_size=16):
 # DATASET METADATA
 # ─────────────────────────────────────────────
 DATASET_META = {
-    "UCI Online Retail II — UK Gift Retailer": {
-        "short_name": "UCI Online Retail II",
+    "UK Gift Retailer — UCI Online Retail II": {
+        "short_name": "UK Gift Retailer — UCI Online Retail II",
         "heading":    "UK Gift Retailer — RFM Segmentation",
         "description": (
             "Transactional data from a UK-based online gift and homeware retailer, "
@@ -392,7 +392,7 @@ def make_targeting_list(rfm: pd.DataFrame, segments: list, currency: str) -> pd.
 # SIDEBAR
 # ─────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## ◈ RFM Intelligence")
+    st.markdown("## ◈ RFM & Acquisition Funnel")
     st.markdown("---")
     st.markdown("**Demo Dataset**")
     dataset_choice = st.selectbox(
