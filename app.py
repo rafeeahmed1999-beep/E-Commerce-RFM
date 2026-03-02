@@ -400,6 +400,11 @@ with st.sidebar:
         options=list(DATASET_META.keys()),
         help="Switch datasets to see how RFM segments shift across industries.",
     )
+    st.markdown(
+        "<p>Switch datasets above to see RFM segmentation applied "
+        "across retail, grocery, and SaaS industries.</p>",
+        unsafe_allow_html=True,
+    )
     st.markdown("---")
     st.markdown("**Custom Dataset**")
     uploaded = st.file_uploader(
@@ -408,23 +413,12 @@ with st.sidebar:
         help="Optional — overrides the demo dataset above.",
     )
     st.markdown("---")
-    st.markdown("**Filters**")
-    country_filter = st.selectbox(
-        "Country", ["All Countries", "United Kingdom"]
-    )
-    st.markdown("---")
     st.markdown("**Targeting Export**")
     all_segments = list(SEGMENT_COLOURS.keys())
     selected_segments = st.multiselect(
         "Segments to export",
         options=all_segments,
         default=["Champions", "At Risk", "Cannot Lose Them"],
-    )
-    st.markdown("---")
-    st.markdown(
-        "<p>Switch datasets above to see RFM segmentation applied "
-        "across retail, grocery, and SaaS industries.</p>",
-        unsafe_allow_html=True,
     )
 
 # ─────────────────────────────────────────────
@@ -450,11 +444,8 @@ with st.spinner("Loading dataset..."):
         st.error(f"Failed to load data: {e}")
         st.stop()
 
-if country_filter != "All Countries" and "country" in df_raw.columns:
-    df_raw = df_raw[df_raw["country"] == country_filter]
-
 if df_raw.empty:
-    st.warning("No data after filtering. Try a different country.")
+    st.warning("No data after applying filters.")
     st.stop()
 
 with st.spinner("Computing RFM scores..."):
@@ -540,10 +531,11 @@ st.markdown("---")
 # ─────────────────────────────────────────────
 # TABS
 # ─────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "Segment Overview",
     "RFM Distribution",
     "Cohort Retention",
+    "Acquisition Funnel",
     "Customer Explorer",
     "Targeting Export",
 ])
@@ -698,9 +690,13 @@ with tab2:
         st.markdown("""
         <div class="insight-box">
           <strong>Reading this chart</strong>
-          <p>Each cell = avg total spend at that R×F score combination.
-          Gold = high value. Top-right (high recency + high frequency)
-          should be your Champions.</p>
+          <p>Each cell shows average total lifetime spend at that R×F score combination.
+          Gold = high value. Top-right (R=5, F=5) represents your most recent and most
+          frequent buyers — but this is not always the highest-spend cell, and that is
+          expected. A customer who ordered 3 times but spent £800 each time will score
+          lower on frequency than one who orders 20 times at £15 each, but their monetary
+          value is far higher. High M at low F typically indicates bulk or wholesale buyers.
+          This is why RFM uses three dimensions separately rather than combining them.</p>
         </div>""", unsafe_allow_html=True)
 
     with d2:
@@ -730,9 +726,9 @@ with tab2:
     st.markdown("---")
     h1, h2, h3 = st.columns(3)
     for series, label, ylabel, col in [
-        (rfm["recency"],   "Recency — Days Since Last Purchase",   "Number of Days",        h1),
-        (rfm["frequency"], "Frequency — Number of Orders",          "Number of Orders",      h2),
-        (rfm["monetary"],  f"Monetary — Total Spend ({currency})",  f"Total Spend ({currency})", h3),
+        (rfm["recency"],   "Recency — Days Since Last Purchase",   "Number of Customers",   h1),
+        (rfm["frequency"], "Frequency — Number of Orders",          "Number of Customers",   h2),
+        (rfm["monetary"],  f"Monetary — Total Spend ({currency})",  "Number of Customers",   h3),
     ]:
         with col:
             fig_hist = px.histogram(rfm, x=series, nbins=40,
@@ -849,10 +845,199 @@ with tab3:
            else 'Low Month-1 retention — onboarding improvement would have the highest impact.'}</p>
         </div>""", unsafe_allow_html=True)
 
+
 # ══════════════════════════════════════════
-# TAB 4 — CUSTOMER EXPLORER
+# TAB 4 — ACQUISITION FUNNEL (SQL)
 # ══════════════════════════════════════════
 with tab4:
+    st.markdown("## Acquisition Funnel — Time to Second Purchase")
+    st.markdown("""
+    <div class="insight-box">
+      <strong>What this shows</strong>
+      <p>The time between a customer's first and second purchase is one of the
+      strongest predictors of long-term retention. Customers who return quickly
+      after their first order are far more likely to become loyal. This analysis
+      uses SQL CTEs to identify each customer's first and second purchase date,
+      compute the gap in days, and distribute that gap across RFM segments.
+      Customers with only one order are classified as single-purchase and tracked
+      separately — they represent the top of your re-engagement funnel.</p>
+    </div>""", unsafe_allow_html=True)
+
+    import sqlite3
+
+    # ── Run SQL to compute first and second purchase per customer ──
+    conn = sqlite3.connect(":memory:")
+    tx = df_raw[["customer_id", "invoicedate", "invoice"]].copy()
+    tx["invoicedate_str"] = tx["invoicedate"].dt.strftime("%Y-%m-%d")
+    tx.to_sql("transactions", conn, index=False, if_exists="replace")
+
+    funnel_sql = """
+    WITH ranked_orders AS (
+        SELECT
+            customer_id,
+            invoicedate_str                         AS order_date,
+            ROW_NUMBER() OVER (
+                PARTITION BY customer_id
+                ORDER BY invoicedate_str ASC
+            )                                       AS order_rank
+        FROM (
+            SELECT DISTINCT customer_id, invoicedate_str
+            FROM transactions
+        ) AS distinct_dates
+    ),
+    first_purchase AS (
+        SELECT customer_id, order_date AS first_date
+        FROM ranked_orders
+        WHERE order_rank = 1
+    ),
+    second_purchase AS (
+        SELECT customer_id, order_date AS second_date
+        FROM ranked_orders
+        WHERE order_rank = 2
+    )
+    SELECT
+        f.customer_id,
+        f.first_date,
+        s.second_date,
+        CAST(
+            (julianday(s.second_date) - julianday(f.first_date))
+            AS INTEGER
+        )                                           AS days_to_second_purchase
+    FROM first_purchase f
+    LEFT JOIN second_purchase s
+        ON f.customer_id = s.customer_id
+    """
+
+    funnel_df = pd.read_sql_query(funnel_sql, conn)
+    conn.close()
+
+    converted   = funnel_df.dropna(subset=["second_date"]).copy()
+    single_only = funnel_df[funnel_df["second_date"].isna()].copy()
+
+    conversion_rate = len(converted) / len(funnel_df) * 100
+    median_days     = converted["days_to_second_purchase"].median()
+    pct_within_30   = (converted["days_to_second_purchase"] <= 30).mean() * 100
+
+    fa, fb, fc, fd = st.columns(4)
+    with fa: st.metric("Total Customers",           f"{len(funnel_df):,}")
+    with fb: st.metric("Made a 2nd Purchase",       f"{len(converted):,}")
+    with fc: st.metric("Single-Purchase Only",      f"{len(single_only):,}")
+    with fd: st.metric("Conversion Rate",           f"{conversion_rate:.1f}%")
+
+    st.markdown("---")
+
+    f1, f2 = st.columns(2)
+
+    with f1:
+        # Distribution of days to second purchase (capped at 365 for readability)
+        plot_data = converted[converted["days_to_second_purchase"] <= 365].copy()
+        fig_funnel = px.histogram(
+            plot_data, x="days_to_second_purchase", nbins=50,
+            color_discrete_sequence=["#c8b87a"],
+        )
+        fig_funnel.add_vline(
+            x=30, line=dict(color="#d4624a", width=1.5, dash="dash"),
+            annotation_text="30 days",
+            annotation_font=dict(family="DM Mono", size=10, color="#d4624a"),
+        )
+        fig_funnel.add_vline(
+            x=float(median_days), line=dict(color="#f0c040", width=1.5, dash="dot"),
+            annotation_text=f"Median: {median_days:.0f}d",
+            annotation_font=dict(family="DM Mono", size=10, color="#f0c040"),
+        )
+        fig_funnel.update_layout(
+            **base_layout("Days Between First and Second Purchase"),
+            showlegend=False,
+            bargap=0.05,
+            xaxis=dict(
+                title="Days to Second Purchase",
+                title_font=dict(family="DM Mono", size=11, color="#666"),
+                gridcolor="#1a1a25", zerolinecolor="#1a1a25",
+            ),
+            yaxis=dict(
+                title="Number of Customers",
+                title_font=dict(family="DM Mono", size=11, color="#666"),
+                gridcolor="#1a1a25", zerolinecolor="#1a1a25",
+            ),
+        )
+        fig_funnel.update_traces(marker_line_color="#0a0a0f", marker_line_width=0.5)
+        st.plotly_chart(fig_funnel, use_container_width=True)
+        st.markdown(f"""
+        <div class="insight-box">
+          <strong>Conversion speed</strong>
+          <p>Median time to second purchase: <b style="color:#e8e4dc;">{median_days:.0f} days</b>.
+          <b style="color:#e8e4dc;">{pct_within_30:.1f}%</b> of returning customers come back
+          within 30 days. Customers who return within 30 days are your highest-probability
+          Loyal Customer candidates — they are the primary target for onboarding sequences.</p>
+        </div>""", unsafe_allow_html=True)
+
+    with f2:
+        # Funnel by RFM segment: what % of each segment made a 2nd purchase
+        seg_funnel = (
+            funnel_df
+            .merge(rfm[["customer_id", "segment"]], on="customer_id", how="left")
+            .groupby("segment")
+            .agg(
+                total        =("customer_id", "count"),
+                converted    =("second_date", lambda x: x.notna().sum()),
+                median_days  =("days_to_second_purchase", "median"),
+            )
+            .reset_index()
+        )
+        seg_funnel["pct_converted"] = (
+            seg_funnel["converted"] / seg_funnel["total"] * 100
+        ).round(1)
+        seg_funnel = seg_funnel.sort_values("pct_converted", ascending=True)
+
+        fig_seg = go.Figure(go.Bar(
+            x=seg_funnel["pct_converted"],
+            y=seg_funnel["segment"],
+            orientation="h",
+            marker_color=[SEGMENT_COLOURS.get(s, "#888") for s in seg_funnel["segment"]],
+            text=[f"{v:.0f}%" for v in seg_funnel["pct_converted"]],
+            textposition="outside",
+            textfont=dict(family="DM Mono", size=10, color="#888"),
+        ))
+        fig_seg.update_layout(
+            **base_layout("% of Segment That Made a Second Purchase"),
+            showlegend=False,
+            xaxis=dict(
+                title="% Who Returned",
+                title_font=dict(family="DM Mono", size=11, color="#666"),
+                range=[0, 110],
+                gridcolor="#1a1a25", zerolinecolor="#1a1a25",
+            ),
+            yaxis=dict(gridcolor="rgba(0,0,0,0)",
+                       tickfont=dict(size=11, color="#888")),
+        )
+        st.plotly_chart(fig_seg, use_container_width=True)
+        st.markdown("""
+        <div class="insight-box">
+          <strong>Segment re-purchase rates</strong>
+          <p>Champions and Loyal Customers show near-100% second purchase rates by
+          definition. The insight here is in the middle segments: Promising and
+          Potential Loyalists with high conversion rates are candidates for loyalty
+          nurture campaigns. Low conversion in New Customers signals an onboarding gap.</p>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown("---")
+    st.markdown("### SQL Query")
+    with st.expander("View the CTE query used to compute this analysis"):
+        st.code(funnel_sql, language="sql")
+    st.markdown("""
+    <div class="insight-box">
+      <strong>Methodology note</strong>
+      <p>First and second purchase dates are identified using ROW_NUMBER() partitioned
+      by customer, ordered by date ascending. The gap is computed using SQLite's
+      julianday() function. Customers with only one distinct purchase date are retained
+      in the dataset as single-purchase customers and excluded from the days distribution
+      chart, but included in the conversion rate metric.</p>
+    </div>""", unsafe_allow_html=True)
+
+# ══════════════════════════════════════════
+# TAB 5 — CUSTOMER EXPLORER
+# ══════════════════════════════════════════
+with tab5:
     st.markdown("## Customer Explorer")
 
     s1, s2, s3 = st.columns([1, 2, 1])
@@ -927,9 +1112,9 @@ with tab4:
     st.caption(f"{len(view):,} customers shown")
 
 # ══════════════════════════════════════════
-# TAB 5 — TARGETING EXPORT
+# TAB 6 — TARGETING EXPORT
 # ══════════════════════════════════════════
-with tab5:
+with tab6:
     st.markdown("## Targeting List Export")
     st.markdown("""
     <div class="insight-box">
