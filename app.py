@@ -190,17 +190,54 @@ SEGMENT_MIGRATION = {
 # ─────────────────────────────────────────────
 def metric(label: str, value: str):
     """
-    Renders a styled metric card using CSS variables so it adapts
-    correctly to both light and dark OS appearance settings.
-    Replaces st.metric() which ignores custom CSS reliably.
+    Renders a metric card with fully inline styles and a small JS snippet
+    that reads the OS colour scheme at runtime and applies the correct
+    colours. This bypasses both Streamlit's CSS isolation and any class-
+    based selector issues entirely.
     """
-    st.markdown(
-        f'''<div class="rfm-metric">
-          <div class="rfm-metric-label">{label}</div>
-          <div class="rfm-metric-value">{value}</div>
-        </div>''',
-        unsafe_allow_html=True,
-    )
+    uid = f"m{abs(hash(label + value)) % 999999}"
+    st.markdown(f"""
+    <div id="{uid}" style="border-radius:4px;padding:20px 24px;margin-bottom:4px;
+         border:1px solid #1e1e2e;background:#12121c;">
+      <div id="{uid}-label" style="font-family:'DM Mono',monospace;font-size:11px;
+           letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;
+           color:#aaaaaa;">{label}</div>
+      <div id="{uid}-value" style="font-family:'DM Serif Display',serif;
+           font-size:2rem;line-height:1.1;color:#f0c040;">{value}</div>
+    </div>
+    <script>
+    (function() {{
+      var dark  = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var card  = document.getElementById("{uid}");
+      var lbl   = document.getElementById("{uid}-label");
+      var val   = document.getElementById("{uid}-value");
+      if (!dark) {{
+        card.style.background   = "#ffffff";
+        card.style.border       = "1px solid #d4cfc4";
+        lbl.style.color         = "#5a5650";
+        val.style.color         = "#7a5c00";
+      }} else {{
+        card.style.background   = "#12121c";
+        card.style.border       = "1px solid #1e1e2e";
+        lbl.style.color         = "#aaaaaa";
+        val.style.color         = "#f0c040";
+      }}
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {{
+        if (!e.matches) {{
+          card.style.background = "#ffffff";
+          card.style.border     = "1px solid #d4cfc4";
+          lbl.style.color       = "#5a5650";
+          val.style.color       = "#7a5c00";
+        }} else {{
+          card.style.background = "#12121c";
+          card.style.border     = "1px solid #1e1e2e";
+          lbl.style.color       = "#aaaaaa";
+          val.style.color       = "#f0c040";
+        }}
+      }});
+    }})();
+    </script>
+    """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # PLOTLY HELPERS
