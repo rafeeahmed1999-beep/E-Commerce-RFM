@@ -17,126 +17,75 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ── CSS variables: adapt to OS light/dark preference ── */
-:root {
-    --bg:          #0a0a0f;
-    --bg-surface:  #12121c;
-    --bg-sidebar:  #0f0f18;
-    --border:      #1e1e2e;
-    --text:        #e8e4dc;
-    --text-muted:  #888;
-    --text-dim:    #555;
-    --gold:        #c8b87a;
-    --gold-bright: #f0c040;
-    --tab-inactive:#444;
-}
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg:          #f5f3ee;
-        --bg-surface:  #ffffff;
-        --bg-sidebar:  #ede9e1;
-        --border:      #d4cfc4;
-        --text:        #1a1814;
-        --text-muted:  #5a5650;
-        --text-dim:    #888;
-        --gold:        #8a6f1a;
-        --gold-bright: #7a5c00;
-        --tab-inactive:#999;
-    }
-}
-
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-.stApp { background-color: var(--bg) !important; color: var(--text) !important; }
+.stApp { background-color: #0a0a0f; color: #e8e4dc; }
 
 section[data-testid="stSidebar"] {
-    background-color: var(--bg-sidebar) !important;
-    border-right: 1px solid var(--border) !important;
+    background-color: #0f0f18;
+    border-right: 1px solid #1e1e2e;
 }
 section[data-testid="stSidebar"] .stMarkdown p {
-    color: var(--text-muted); font-size: 11px;
-    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #888; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
 }
 
 h1 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 2.4rem !important; color: var(--text) !important;
+    font-size: 2.4rem !important; color: #e8e4dc !important;
     letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 4px !important;
 }
 h2 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 1.6rem !important; color: var(--text) !important;
+    font-size: 1.6rem !important; color: #e8e4dc !important;
 }
 h3 {
     font-family: 'DM Sans', sans-serif !important;
-    font-size: 0.75rem !important; color: var(--text-muted) !important;
+    font-size: 0.75rem !important; color: #666 !important;
     letter-spacing: 0.12em !important; text-transform: uppercase !important;
     font-weight: 500 !important;
 }
 
-/* ── Custom metric card (replaces st.metric) ── */
-.rfm-metric {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 20px 24px;
-    margin-bottom: 4px;
-}
-.rfm-metric-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-.rfm-metric-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2rem;
-    color: var(--gold-bright);
-    line-height: 1.1;
-}
-
 .stDownloadButton button {
-    background: var(--text) !important; color: var(--bg) !important;
+    background: #e8e4dc !important; color: #0a0a0f !important;
     border: none !important; border-radius: 2px !important;
     font-family: 'DM Mono', monospace !important; font-size: 11px !important;
     letter-spacing: 0.08em !important; text-transform: uppercase !important;
     font-weight: 500 !important; padding: 8px 20px !important;
 }
+.stDownloadButton button:hover { background: #c8c4bc !important; }
 
-hr { border-color: var(--border) !important; margin: 32px 0 !important; }
+hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
 
 .stSelectbox label, .stMultiSelect label, .stTextInput label {
-    color: var(--text-muted) !important; font-size: 11px !important;
+    color: #666 !important; font-size: 11px !important;
     letter-spacing: 0.08em !important; text-transform: uppercase !important;
     font-family: 'DM Mono', monospace !important;
 }
 
 .insight-box {
-    background: var(--bg-surface); border-left: 2px solid var(--gold);
+    background: #12121c; border-left: 2px solid #c8b87a;
     padding: 16px 20px; margin: 16px 0; border-radius: 0 4px 4px 0;
 }
 .insight-box p {
-    color: var(--text-muted); font-size: 13px; line-height: 1.6;
+    color: #aaa; font-size: 13px; line-height: 1.6;
     margin: 0; font-family: 'DM Sans', sans-serif;
 }
 .insight-box strong {
-    color: var(--gold); font-family: 'DM Mono', monospace;
+    color: #c8b87a; font-family: 'DM Mono', monospace;
     font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
     display: block; margin-bottom: 6px;
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    background: transparent; border-bottom: 1px solid var(--border); gap: 0;
+    background: transparent; border-bottom: 1px solid #1e1e2e; gap: 0;
 }
 .stTabs [data-baseweb="tab"] {
-    background: transparent; color: var(--tab-inactive);
+    background: transparent; color: #444;
     font-family: 'DM Mono', monospace; font-size: 11px;
     letter-spacing: 0.08em; text-transform: uppercase;
     padding: 12px 24px; border: none; border-bottom: 2px solid transparent;
 }
 .stTabs [aria-selected="true"] {
-    color: var(--text) !important; border-bottom: 2px solid var(--gold) !important;
+    color: #e8e4dc !important; border-bottom: 2px solid #c8b87a !important;
     background: transparent !important;
 }
 </style>
@@ -189,55 +138,18 @@ SEGMENT_MIGRATION = {
 # METRIC CARD HELPER
 # ─────────────────────────────────────────────
 def metric(label: str, value: str):
-    """
-    Renders a metric card with fully inline styles and a small JS snippet
-    that reads the OS colour scheme at runtime and applies the correct
-    colours. This bypasses both Streamlit's CSS isolation and any class-
-    based selector issues entirely.
-    """
-    uid = f"m{abs(hash(label + value)) % 999999}"
-    st.markdown(f"""
-    <div id="{uid}" style="border-radius:4px;padding:20px 24px;margin-bottom:4px;
-         border:1px solid #1e1e2e;background:#12121c;">
-      <div id="{uid}-label" style="font-family:'DM Mono',monospace;font-size:11px;
-           letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;
-           color:#aaaaaa;">{label}</div>
-      <div id="{uid}-value" style="font-family:'DM Serif Display',serif;
-           font-size:2rem;line-height:1.1;color:#f0c040;">{value}</div>
-    </div>
-    <script>
-    (function() {{
-      var dark  = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      var card  = document.getElementById("{uid}");
-      var lbl   = document.getElementById("{uid}-label");
-      var val   = document.getElementById("{uid}-value");
-      if (!dark) {{
-        card.style.background   = "#ffffff";
-        card.style.border       = "1px solid #d4cfc4";
-        lbl.style.color         = "#5a5650";
-        val.style.color         = "#7a5c00";
-      }} else {{
-        card.style.background   = "#12121c";
-        card.style.border       = "1px solid #1e1e2e";
-        lbl.style.color         = "#aaaaaa";
-        val.style.color         = "#f0c040";
-      }}
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {{
-        if (!e.matches) {{
-          card.style.background = "#ffffff";
-          card.style.border     = "1px solid #d4cfc4";
-          lbl.style.color       = "#5a5650";
-          val.style.color       = "#7a5c00";
-        }} else {{
-          card.style.background = "#12121c";
-          card.style.border     = "1px solid #1e1e2e";
-          lbl.style.color       = "#aaaaaa";
-          val.style.color       = "#f0c040";
-        }}
-      }});
-    }})();
-    </script>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f'''<div style="background:#12121c;border:1px solid #1e1e2e;border-radius:4px;
+                    padding:20px 24px;margin-bottom:4px;">
+          <div style="font-family:DM Mono,monospace;font-size:11px;color:#e8e4dc;
+                      letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">
+            {label}</div>
+          <div style="font-family:DM Serif Display,serif;font-size:2rem;
+                      color:#f0c040;line-height:1.1;">
+            {value}</div>
+        </div>''',
+        unsafe_allow_html=True,
+    )
 
 # ─────────────────────────────────────────────
 # PLOTLY HELPERS
