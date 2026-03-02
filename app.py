@@ -17,97 +17,126 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
+/* ── CSS variables: adapt to OS light/dark preference ── */
+:root {
+    --bg:          #0a0a0f;
+    --bg-surface:  #12121c;
+    --bg-sidebar:  #0f0f18;
+    --border:      #1e1e2e;
+    --text:        #e8e4dc;
+    --text-muted:  #888;
+    --text-dim:    #555;
+    --gold:        #c8b87a;
+    --gold-bright: #f0c040;
+    --tab-inactive:#444;
+}
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg:          #f5f3ee;
+        --bg-surface:  #ffffff;
+        --bg-sidebar:  #ede9e1;
+        --border:      #d4cfc4;
+        --text:        #1a1814;
+        --text-muted:  #5a5650;
+        --text-dim:    #888;
+        --gold:        #8a6f1a;
+        --gold-bright: #7a5c00;
+        --tab-inactive:#999;
+    }
+}
+
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-.stApp { background-color: #0a0a0f; color: #e8e4dc; }
+.stApp { background-color: var(--bg) !important; color: var(--text) !important; }
 
 section[data-testid="stSidebar"] {
-    background-color: #0f0f18;
-    border-right: 1px solid #1e1e2e;
+    background-color: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border) !important;
 }
 section[data-testid="stSidebar"] .stMarkdown p {
-    color: #888; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase;
 }
 
 h1 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 2.4rem !important; color: #e8e4dc !important;
+    font-size: 2.4rem !important; color: var(--text) !important;
     letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 4px !important;
 }
 h2 {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 1.6rem !important; color: #e8e4dc !important;
+    font-size: 1.6rem !important; color: var(--text) !important;
 }
 h3 {
     font-family: 'DM Sans', sans-serif !important;
-    font-size: 0.75rem !important; color: #666 !important;
+    font-size: 0.75rem !important; color: var(--text-muted) !important;
     letter-spacing: 0.12em !important; text-transform: uppercase !important;
     font-weight: 500 !important;
 }
 
-[data-testid="metric-container"] {
-    background: #12121c;
-    border: 1px solid #1e1e2e;
+/* ── Custom metric card (replaces st.metric) ── */
+.rfm-metric {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
     border-radius: 4px;
     padding: 20px 24px;
-    transition: background 0.25s ease, border-color 0.25s ease;
-    cursor: default;
+    margin-bottom: 4px;
 }
-[data-testid="metric-container"] label,
-[data-testid="metric-container"] [data-testid="stMetricLabel"] p,
-[data-testid="metric-container"] [data-testid="stMetricLabel"] span {
-    color: #e8e4dc !important; font-size: 11px !important;
-    letter-spacing: 0.1em !important; text-transform: uppercase !important;
-    font-family: 'DM Mono', monospace !important;
+.rfm-metric-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
 }
-[data-testid="metric-container"] [data-testid="stMetricValue"],
-[data-testid="metric-container"] [data-testid="stMetricValue"] * {
-    color: #f0c040 !important;
-    font-family: 'DM Serif Display', serif !important;
-    font-size: 2rem !important;
+.rfm-metric-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--gold-bright);
+    line-height: 1.1;
 }
 
 .stDownloadButton button {
-    background: #e8e4dc !important; color: #0a0a0f !important;
+    background: var(--text) !important; color: var(--bg) !important;
     border: none !important; border-radius: 2px !important;
     font-family: 'DM Mono', monospace !important; font-size: 11px !important;
     letter-spacing: 0.08em !important; text-transform: uppercase !important;
     font-weight: 500 !important; padding: 8px 20px !important;
 }
-.stDownloadButton button:hover { background: #c8c4bc !important; }
 
-hr { border-color: #1e1e2e !important; margin: 32px 0 !important; }
+hr { border-color: var(--border) !important; margin: 32px 0 !important; }
 
 .stSelectbox label, .stMultiSelect label, .stTextInput label {
-    color: #666 !important; font-size: 11px !important;
+    color: var(--text-muted) !important; font-size: 11px !important;
     letter-spacing: 0.08em !important; text-transform: uppercase !important;
     font-family: 'DM Mono', monospace !important;
 }
 
 .insight-box {
-    background: #12121c; border-left: 2px solid #c8b87a;
+    background: var(--bg-surface); border-left: 2px solid var(--gold);
     padding: 16px 20px; margin: 16px 0; border-radius: 0 4px 4px 0;
 }
 .insight-box p {
-    color: #aaa; font-size: 13px; line-height: 1.6;
+    color: var(--text-muted); font-size: 13px; line-height: 1.6;
     margin: 0; font-family: 'DM Sans', sans-serif;
 }
 .insight-box strong {
-    color: #c8b87a; font-family: 'DM Mono', monospace;
+    color: var(--gold); font-family: 'DM Mono', monospace;
     font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
     display: block; margin-bottom: 6px;
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    background: transparent; border-bottom: 1px solid #1e1e2e; gap: 0;
+    background: transparent; border-bottom: 1px solid var(--border); gap: 0;
 }
 .stTabs [data-baseweb="tab"] {
-    background: transparent; color: #444;
+    background: transparent; color: var(--tab-inactive);
     font-family: 'DM Mono', monospace; font-size: 11px;
     letter-spacing: 0.08em; text-transform: uppercase;
     padding: 12px 24px; border: none; border-bottom: 2px solid transparent;
 }
 .stTabs [aria-selected="true"] {
-    color: #e8e4dc !important; border-bottom: 2px solid #c8b87a !important;
+    color: var(--text) !important; border-bottom: 2px solid var(--gold) !important;
     background: transparent !important;
 }
 </style>
@@ -155,6 +184,23 @@ SEGMENT_MIGRATION = {
     "Need Attention":      ("At Risk",          "30 days"),
     "Lost":                (None,               None),
 }
+
+# ─────────────────────────────────────────────
+# METRIC CARD HELPER
+# ─────────────────────────────────────────────
+def metric(label: str, value: str):
+    """
+    Renders a styled metric card using CSS variables so it adapts
+    correctly to both light and dark OS appearance settings.
+    Replaces st.metric() which ignores custom CSS reliably.
+    """
+    st.markdown(
+        f'''<div class="rfm-metric">
+          <div class="rfm-metric-label">{label}</div>
+          <div class="rfm-metric-value">{value}</div>
+        </div>''',
+        unsafe_allow_html=True,
+    )
 
 # ─────────────────────────────────────────────
 # PLOTLY HELPERS
@@ -520,11 +566,11 @@ st.markdown(f"""
 # TOP METRICS
 # ─────────────────────────────────────────────
 m1, m2, m3, m4, m5 = st.columns(5)
-with m1: st.metric("Customers",            f"{len(rfm):,}")
-with m2: st.metric("Total Revenue",        f"{currency}{df_raw['revenue'].sum():,.0f}")
-with m3: st.metric("Avg Order Value",      f"{currency}{df_raw.groupby('invoice')['revenue'].sum().mean():,.2f}")
-with m4: st.metric("Avg Orders/Customer",  f"{rfm['frequency'].mean():.1f}x")
-with m5: st.metric("Avg Days Since Order", f"{rfm['recency'].mean():.0f}d")
+with m1: metric("Customers",            f"{len(rfm):,}")
+with m2: metric("Total Revenue",        f"{currency}{df_raw['revenue'].sum():,.0f}")
+with m3: metric("Avg Order Value",      f"{currency}{df_raw.groupby('invoice')['revenue'].sum().mean():,.2f}")
+with m4: metric("Avg Orders/Customer",  f"{rfm['frequency'].mean():.1f}x")
+with m5: metric("Avg Days Since Order", f"{rfm['recency'].mean():.0f}d")
 
 st.markdown("---")
 
@@ -919,10 +965,10 @@ with tab4:
     pct_within_30   = (converted["days_to_second_purchase"] <= 30).mean() * 100
 
     fa, fb, fc, fd = st.columns(4)
-    with fa: st.metric("Total Customers",           f"{len(funnel_df):,}")
-    with fb: st.metric("Made a 2nd Purchase",       f"{len(converted):,}")
-    with fc: st.metric("Single-Purchase Only",      f"{len(single_only):,}")
-    with fd: st.metric("Conversion Rate",           f"{conversion_rate:.1f}%")
+    with fa: metric("Total Customers",           f"{len(funnel_df):,}")
+    with fb: metric("Made a 2nd Purchase",       f"{len(converted):,}")
+    with fc: metric("Single-Purchase Only",      f"{len(single_only):,}")
+    with fd: metric("Conversion Rate",           f"{conversion_rate:.1f}%")
 
     st.markdown("---")
 
@@ -1131,9 +1177,9 @@ with tab6:
         spend_col = f"Total Spend ({currency})"
 
         e1, e2, e3 = st.columns(3)
-        with e1: st.metric("Customers in Export",    f"{len(tgt):,}")
-        with e2: st.metric("Segments Selected",      f"{len(selected_segments)}")
-        with e3: st.metric("Combined Lifetime Value", f"{currency}{tgt[spend_col].sum():,.0f}")
+        with e1: metric("Customers in Export",    f"{len(tgt):,}")
+        with e2: metric("Segments Selected",      f"{len(selected_segments)}")
+        with e3: metric("Combined Lifetime Value", f"{currency}{tgt[spend_col].sum():,.0f}")
 
         st.markdown("---")
 
